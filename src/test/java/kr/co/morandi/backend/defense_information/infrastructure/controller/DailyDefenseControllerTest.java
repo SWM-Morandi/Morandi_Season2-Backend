@@ -15,8 +15,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class DailyDefenseControllerTest extends ControllerTestSupport {
-
-
     @DisplayName("DailyDefense 정보를 로그인하지 않은 상태에서 가져올 수 있다.")
     @Test
     void getDailyDefenseInfo() throws Exception {

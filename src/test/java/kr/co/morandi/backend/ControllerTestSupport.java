@@ -3,7 +3,9 @@ package kr.co.morandi.backend;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.morandi.backend.defense_information.application.port.in.DailyDefenseUseCase;
 import kr.co.morandi.backend.defense_information.infrastructure.controller.DailyDefenseController;
+import kr.co.morandi.backend.defense_management.application.service.codesubmit.SQSService;
 import kr.co.morandi.backend.defense_management.application.service.message.DefenseMessageService;
+import kr.co.morandi.backend.defense_management.infrastructure.controller.CodeSubmitController;
 import kr.co.morandi.backend.defense_management.infrastructure.controller.SessionConnectionController;
 import kr.co.morandi.backend.defense_record.application.port.in.DailyRecordRankUseCase;
 import kr.co.morandi.backend.defense_record.infrastructure.controller.DailyRecordController;
@@ -27,14 +29,14 @@ import org.springframework.web.filter.OncePerRequestFilter;
         DailyRecordController.class,
         SessionConnectionController.class,
         CookieController.class,
-        BaekjoonSubmitController.class
-},
+        BaekjoonSubmitController.class,
+        CodeSubmitController.class },
         excludeAutoConfiguration = SecurityAutoConfiguration.class,
         excludeFilters = {
-                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
-                        OncePerRequestFilter.class
-                })
-}
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {
+                    OncePerRequestFilter.class
+            })
+        }
 )
 @ActiveProfiles("test")
 public abstract class ControllerTestSupport {
@@ -68,5 +70,7 @@ public abstract class ControllerTestSupport {
     @MockBean
     protected BaekjoonSubmitUsecase baekjoonSubmitUsecase;
 
-
+    // CodeSubmitController
+    @MockBean
+    protected SQSService sqsService;
 }
