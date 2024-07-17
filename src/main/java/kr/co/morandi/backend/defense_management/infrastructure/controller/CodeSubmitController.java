@@ -1,6 +1,7 @@
 package kr.co.morandi.backend.defense_management.infrastructure.controller;
 
 import com.amazonaws.services.sqs.model.SendMessageResult;
+import kr.co.morandi.backend.defense_management.application.service.codesubmit.MessagingQueueService;
 import kr.co.morandi.backend.defense_management.application.service.codesubmit.SQSService;
 import kr.co.morandi.backend.defense_management.infrastructure.request.codesubmit.CodeRequest;
 import lombok.RequiredArgsConstructor;
@@ -17,9 +18,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/submit")
 public class CodeSubmitController {
 
-    private final SQSService sqsService;
+    private final MessagingQueueService messagingQueueService;
+
     @PostMapping("/example")
     public ResponseEntity<SendMessageResult> submit(@RequestBody CodeRequest codeRequest) {
-        return ResponseEntity.ok(sqsService.sendMessage(codeRequest));
+        return ResponseEntity.ok(messagingQueueService.sendMessage(codeRequest));
     }
 }

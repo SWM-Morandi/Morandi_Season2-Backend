@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class SQSService {
+public class SQSService implements MessagingQueueService {
 
     @Value("${cloud.aws.sqs.queue.example-compile-url}")
     private String url;
@@ -22,6 +22,7 @@ public class SQSService {
     private final AmazonSQS amazonSQS;
 
     private final ObjectMapper objectMapper;
+    @Override
     public SendMessageResult sendMessage(CodeRequest codeRequest) {
         try {
             String requestString = objectMapper.writeValueAsString(codeRequest);
