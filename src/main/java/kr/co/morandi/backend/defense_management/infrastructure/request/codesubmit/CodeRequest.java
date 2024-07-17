@@ -10,21 +10,21 @@ public class CodeRequest {
     private String code;
     private String language;
     private String input;
-    private String sseId;
+    private String defenseSessionId;
 
-    public static CodeRequest create(String code, String language, String input, String sseId) {
+    public static CodeRequest create(String code, String language, String input, String defenseSessionId) {
         return CodeRequest.builder()
                 .code(code)
                 .language(language)
                 .input(input)
-                .sseId(sseId)
+                .defenseSessionId(defenseSessionId)
                 .build();
     }
     @Builder
-    private CodeRequest(String code, String language, String input, String sseId) {
+    private CodeRequest(String code, String language, String input, String defenseSessionId) {
         this.code = code;
         this.language = language;
         this.input = input;
-        this.sseId = sseId;
+        this.defenseSessionId = defenseSessionId;
     }
 }
