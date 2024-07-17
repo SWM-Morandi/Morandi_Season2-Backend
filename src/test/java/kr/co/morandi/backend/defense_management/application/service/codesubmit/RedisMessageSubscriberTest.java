@@ -32,10 +32,13 @@ class RedisMessageSubscriberTest extends IntegrationTestSupport {
 
     @MockBean
     private DefenseMessagePort defenseMessagePort;
+
     @Autowired
     private RedisMessageSubscriber redisMessageSubscriber;
+
     @Autowired
     private ObjectMapper objectMapper;
+
     @DisplayName("Redis pub/sub에 메시지가 도착하면 메시지가 정상적으로 SSE에 전송되어야 한다.")
     @Test
     void correctOnMessage() throws JsonProcessingException {
@@ -55,7 +58,8 @@ class RedisMessageSubscriberTest extends IntegrationTestSupport {
     @DisplayName("Redis pub/sub에 형식에 맞지 않는 메시지가 오면 예외를 발생시켜야 한다.")
     @Test
     void incorrectOnMessage() {
-        MorandiException morandiException = assertThrows(MorandiException.class, () -> redisMessageSubscriber.onMessage(null, null));
+        MorandiException morandiException
+                = assertThrows(MorandiException.class, () -> redisMessageSubscriber.onMessage(null, null));
         assertEquals(RedisMessageErrorCode.MESSAGE_PARSE_ERROR, morandiException.getErrorCode());
         assertEquals("Redis의 메시지를 파싱하지 못했습니다.", morandiException.getMessage());
     }

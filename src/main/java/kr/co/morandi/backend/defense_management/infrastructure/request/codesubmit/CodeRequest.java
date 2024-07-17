@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Builder
+@Getter
 public class CodeRequest {
 
     private String code;
@@ -19,5 +19,12 @@ public class CodeRequest {
                 .input(input)
                 .sseId(sseId)
                 .build();
+    }
+    @Builder
+    private CodeRequest(String code, String language, String input, String sseId) {
+        this.code = code;
+        this.language = language;
+        this.input = input;
+        this.sseId = sseId;
     }
 }
