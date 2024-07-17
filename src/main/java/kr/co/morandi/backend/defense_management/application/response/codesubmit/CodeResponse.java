@@ -5,16 +5,23 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
-@Builder
 public class CodeResponse {
+
     private String result;
     private double executeTime;
     private String output;
+
     public static CodeResponse create(MessageResponse messageResponse) {
         return CodeResponse.builder()
                 .result(messageResponse.getResult())
                 .executeTime(messageResponse.getExecute_time())
                 .output(messageResponse.getOutput())
                 .build();
+    }
+    @Builder
+    private CodeResponse(String result, double executeTime, String output) {
+        this.result = result;
+        this.executeTime = executeTime;
+        this.output = output;
     }
 }

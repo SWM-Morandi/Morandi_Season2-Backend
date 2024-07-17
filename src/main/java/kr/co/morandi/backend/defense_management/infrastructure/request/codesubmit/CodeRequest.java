@@ -4,14 +4,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Builder
+@Getter @Builder
 public class CodeRequest {
 
     private String code;
     private String language;
     private String input;
     private String sseId;
+
     public static CodeRequest create(String code, String language, String input, String sseId) {
         return CodeRequest.builder()
                 .code(code)
