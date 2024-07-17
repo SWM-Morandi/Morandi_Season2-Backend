@@ -7,6 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.morandi.backend.IntegrationTestSupport;
 import kr.co.morandi.backend.common.exception.MorandiException;
+import kr.co.morandi.backend.defense_management.infrastructure.exception.SQSMessageErrorCode;
 import kr.co.morandi.backend.defense_management.infrastructure.request.codesubmit.CodeRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +16,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,8 +29,9 @@ class SQSServiceTest extends IntegrationTestSupport {
     @Autowired
     private SQSService sqsService;
 
-    @Autowired
+    @MockBean
     private AmazonSQS amazonSQS;
+
 
     @DisplayName("사용자가 소스코드를 제출하면 AWS SQS에 JSON 메시지가 올바른 주소에 전송된다.")
     @Test
@@ -44,5 +47,43 @@ class SQSServiceTest extends IntegrationTestSupport {
 
         // then
         assertEquals(전송_결과물, 실제_전송_결과물);
+    }
+
+    @DisplayName("AWS SQS 메시지 전송 시에 예외가 발생하더라도 3번 이내에 재전송에 성공하면 정상적으로 전송된다.")
+    @Test
+    void retrySendMessageTest() {
+        // given
+        CodeRequest 코드_요청_정보 = CodeRequest.create("Hello world", "Python", "", "123");
+        SendMessageResult 전송_결과물 = new SendMessageResult().withMessageId("12345");
+
+        when(amazonSQS.sendMessage(any(SendMessageRequest.class)))
+                .thenThrow(new RuntimeException("SQS Exception"))
+                .thenThrow(new RuntimeException("SQS Exception"))
+                .thenReturn(전송_결과물);
+
+        // when
+        SendMessageResult 실제_전송_결과물 = sqsService.sendMessage(코드_요청_정보);
+
+        // then
+        assertEquals(전송_결과물, 실제_전송_결과물);
+        verify(amazonSQS, times(1 + 2)).sendMessage(any(SendMessageRequest.class));
+    }
+
+    @DisplayName("AWS SQS 메시지 재전송 로직이 3번 실패하면 예외가 발생한다.")
+    @Test
+    void retrySendMessageFailTest() {
+        // given
+        CodeRequest 코드_요청_정보 = CodeRequest.create("Hello world", "Python", "", "123");
+
+        when(amazonSQS.sendMessage(any(SendMessageRequest.class)))
+                .thenThrow(new RuntimeException("SQS Exception"));
+
+        // when & then
+        MorandiException exception = assertThrows(MorandiException.class, () -> {
+            sqsService.sendMessage(코드_요청_정보);
+        });
+
+        assertEquals(SQSMessageErrorCode.MESSAGE_SEND_FAILED, exception.getErrorCode());
+        verify(amazonSQS, times(1 + 3)).sendMessage(any(SendMessageRequest.class));
     }
 }

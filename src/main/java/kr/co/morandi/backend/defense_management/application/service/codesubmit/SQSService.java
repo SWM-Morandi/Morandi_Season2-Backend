@@ -22,6 +22,7 @@ public class SQSService implements MessagingQueueService {
     private final AmazonSQS amazonSQS;
 
     private final ObjectMapper objectMapper;
+    private static final int MAX_RETRIES = 3;
     @Override
     public SendMessageResult sendMessage(CodeRequest codeRequest) {
         try {
@@ -30,6 +31,24 @@ public class SQSService implements MessagingQueueService {
             return amazonSQS.sendMessage(sendMessageRequest);
         } catch (JsonProcessingException e) {
             throw new MorandiException(SQSMessageErrorCode.MESSAGE_PARSE_ERROR);
+        } catch (Exception e) {
+            // 재전송 로직 추가
+            return retrySendMessage(codeRequest, MAX_RETRIES);
+        }
+    }
+    public SendMessageResult retrySendMessage(CodeRequest codeRequest, int count) {
+
+        if (count == 0)
+            throw new MorandiException(SQSMessageErrorCode.MESSAGE_SEND_FAILED);
+
+        try {
+            String requestString = objectMapper.writeValueAsString(codeRequest);
+            SendMessageRequest sendMessageRequest = new SendMessageRequest(url, requestString);
+            return amazonSQS.sendMessage(sendMessageRequest);
+        } catch (JsonProcessingException e) {
+            throw new MorandiException(SQSMessageErrorCode.MESSAGE_PARSE_ERROR);
+        } catch (Exception e) {
+            return retrySendMessage(codeRequest, count - 1);
         }
     }
 }

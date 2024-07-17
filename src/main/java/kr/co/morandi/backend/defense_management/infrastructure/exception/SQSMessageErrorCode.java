@@ -8,7 +8,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum SQSMessageErrorCode implements ErrorCode {
-    MESSAGE_PARSE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AWS SQS에 보낼 메시지를 파싱하지 못했습니다.");
+    MESSAGE_PARSE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "AWS SQS에 보낼 메시지를 파싱하지 못했습니다."),
+    MESSAGE_SEND_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "AWS SQS에 메시지를 전송하지 못했습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
