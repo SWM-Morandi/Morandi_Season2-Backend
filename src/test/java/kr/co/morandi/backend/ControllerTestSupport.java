@@ -3,6 +3,7 @@ package kr.co.morandi.backend;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.morandi.backend.defense_information.application.port.in.DailyDefenseUseCase;
 import kr.co.morandi.backend.defense_information.infrastructure.controller.DailyDefenseController;
+import kr.co.morandi.backend.defense_management.application.service.codesubmit.MessagingQueueService;
 import kr.co.morandi.backend.defense_management.application.service.codesubmit.SQSService;
 import kr.co.morandi.backend.defense_management.application.service.message.DefenseMessageService;
 import kr.co.morandi.backend.defense_management.infrastructure.controller.CodeSubmitController;
@@ -72,5 +73,5 @@ public abstract class ControllerTestSupport {
 
     // CodeSubmitController
     @MockBean
-    protected SQSService sqsService;
+    protected MessagingQueueService messagingQueueService;
 }
