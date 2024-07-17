@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/submit")
-public class CodeSubmitController {
+public class ExampleCodeSubmitController {
 
     private final MessagingQueueService messagingQueueService;
 
