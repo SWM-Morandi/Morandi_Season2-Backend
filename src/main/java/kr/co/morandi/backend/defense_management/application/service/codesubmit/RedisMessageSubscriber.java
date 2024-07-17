@@ -21,6 +21,7 @@ public class RedisMessageSubscriber implements MessageListener {
     private final ObjectMapper objectMapper;
 
     private final DefenseMessagePort defenseMessagePort;
+
     @Override
     public void onMessage(Message message, byte[] pattern) {
         try {
