@@ -1,5 +1,7 @@
 package kr.co.morandi.backend.defense_information.domain.model.defense;
 
+import kr.co.morandi.backend.common.exception.MorandiException;
+import kr.co.morandi.backend.problem_information.domain.model.error.ProblemErrorCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -23,7 +25,7 @@ public enum ProblemTier {
 
     public static List<ProblemTier> tierRangeOf(ProblemTier start, ProblemTier end) {
         if (start.tier > end.tier)
-            throw new IllegalArgumentException("시작 티어가 끝 티어보다 높을 수 없습니다.");
+            throw new MorandiException(ProblemErrorCode.PROBLEM_TIER_ERROR);
 
         return VALUES.stream()
                 .filter(tier -> tier.tier >= start.tier && tier.tier <= end.tier)
