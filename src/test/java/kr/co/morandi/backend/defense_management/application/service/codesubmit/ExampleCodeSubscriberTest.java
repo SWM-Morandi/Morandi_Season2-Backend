@@ -1,7 +1,5 @@
 package kr.co.morandi.backend.defense_management.application.service.codesubmit;
 
-import com.amazonaws.services.sqs.model.SendMessageRequest;
-import com.amazonaws.services.sqs.model.SendMessageResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.morandi.backend.IntegrationTestSupport;
@@ -9,12 +7,9 @@ import kr.co.morandi.backend.common.exception.MorandiException;
 import kr.co.morandi.backend.defense_management.application.port.out.defensemessaging.DefenseMessagePort;
 import kr.co.morandi.backend.defense_management.application.response.codesubmit.MessageResponse;
 import kr.co.morandi.backend.defense_management.infrastructure.exception.RedisMessageErrorCode;
-import kr.co.morandi.backend.defense_management.infrastructure.exception.SQSMessageErrorCode;
-import kr.co.morandi.backend.defense_management.infrastructure.request.codesubmit.CodeRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,20 +17,21 @@ import org.springframework.data.redis.connection.DefaultMessage;
 import org.springframework.data.redis.connection.Message;
 import org.springframework.test.context.ActiveProfiles;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
-class RedisMessageSubscriberTest extends IntegrationTestSupport {
+class ExampleCodeSubscriberTest extends IntegrationTestSupport {
 
     @MockBean
     private DefenseMessagePort defenseMessagePort;
 
     @Autowired
-    private RedisMessageSubscriber redisMessageSubscriber;
+    private ExampleCodeSubscriber redisMessageSubscriber;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -51,7 +47,7 @@ class RedisMessageSubscriberTest extends IntegrationTestSupport {
         String channel = "channel";
         Message message = new DefaultMessage(channel.getBytes(), json.getBytes());
 
-        Mockito.when(defenseMessagePort.sendMessage(anyLong(), anyString()))
+        when(defenseMessagePort.sendMessage(anyLong(), anyString()))
                 .thenReturn(true);
 
         // when
@@ -72,7 +68,7 @@ class RedisMessageSubscriberTest extends IntegrationTestSupport {
         String channel = "channel";
         Message message = new DefaultMessage(channel.getBytes(), json.getBytes());
 
-        Mockito.when(defenseMessagePort.sendMessage(anyLong(), anyString()))
+        when(defenseMessagePort.sendMessage(anyLong(), anyString()))
                 .thenThrow(new RuntimeException("Error"))
                 .thenThrow(new RuntimeException("Error"))
                 .thenReturn(true);
@@ -95,7 +91,7 @@ class RedisMessageSubscriberTest extends IntegrationTestSupport {
         String channel = "channel";
         Message message = new DefaultMessage(channel.getBytes(), json.getBytes());
 
-        Mockito.when(defenseMessagePort.sendMessage(anyLong(), anyString()))
+        when(defenseMessagePort.sendMessage(anyLong(), anyString()))
                 .thenThrow(new RuntimeException("Error"));
 
         // when

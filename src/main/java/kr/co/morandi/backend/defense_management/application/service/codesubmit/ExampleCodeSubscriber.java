@@ -1,7 +1,5 @@
 package kr.co.morandi.backend.defense_management.application.service.codesubmit;
 
-import com.amazonaws.services.sqs.model.SendMessageRequest;
-import com.amazonaws.services.sqs.model.SendMessageResult;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.morandi.backend.common.exception.MorandiException;
@@ -10,7 +8,6 @@ import kr.co.morandi.backend.defense_management.application.response.codesubmit.
 import kr.co.morandi.backend.defense_management.application.response.codesubmit.MessageResponse;
 import kr.co.morandi.backend.defense_management.infrastructure.exception.RedisMessageErrorCode;
 import kr.co.morandi.backend.defense_management.infrastructure.exception.SQSMessageErrorCode;
-import kr.co.morandi.backend.defense_management.infrastructure.request.codesubmit.CodeRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.Message;
@@ -20,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class RedisMessageSubscriber implements MessageListener {
+public class ExampleCodeSubscriber implements MessageListener {
 
     private final ObjectMapper objectMapper;
 

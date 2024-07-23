@@ -1,7 +1,6 @@
 package kr.co.morandi.backend.common.config;
 
-import kr.co.morandi.backend.defense_management.application.service.codesubmit.RedisMessageSubscriber;
-import lombok.RequiredArgsConstructor;
+import kr.co.morandi.backend.defense_management.application.service.codesubmit.ExampleCodeSubscriber;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -39,7 +38,7 @@ public class RedisConfig {
     }
     @Bean
     RedisMessageListenerContainer redisContainer(RedisConnectionFactory connectionFactory,
-                                                 RedisMessageSubscriber subscriber) {
+                                                 ExampleCodeSubscriber subscriber) {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(subscriber, new ChannelTopic("channel"));
