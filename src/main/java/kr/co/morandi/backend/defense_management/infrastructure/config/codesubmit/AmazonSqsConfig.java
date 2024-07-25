@@ -27,7 +27,7 @@ public class AmazonSqsConfig {
     public AmazonSQSAsync amazonCompileSQSAws() {
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
         return AmazonSQSAsyncClientBuilder.standard()
-                .withRegion(region)
+                .withRegion("ap-northeast-2")
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
     }
