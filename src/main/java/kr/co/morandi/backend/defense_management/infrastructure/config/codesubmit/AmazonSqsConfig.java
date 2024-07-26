@@ -2,6 +2,7 @@ package kr.co.morandi.backend.defense_management.infrastructure.config.codesubmi
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQSAsync;
 import com.amazonaws.services.sqs.AmazonSQSAsyncClientBuilder;
 import lombok.extern.slf4j.Slf4j;
@@ -27,7 +28,7 @@ public class AmazonSqsConfig {
     public AmazonSQSAsync amazonCompileSQSAws() {
         BasicAWSCredentials awsCreds = new BasicAWSCredentials(accessKey, secretKey);
         return AmazonSQSAsyncClientBuilder.standard()
-                .withRegion("ap-northeast-2")
+                .withRegion(Regions.AP_NORTHEAST_2)
                 .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
                 .build();
     }
