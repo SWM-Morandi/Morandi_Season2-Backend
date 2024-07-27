@@ -19,7 +19,6 @@ public enum OAuthErrorCode implements ErrorCode {
     UNKNOWN_ERROR(HttpStatus.INTERNAL_SERVER_ERROR,"알 수 없는 오류"),
     GOOGLE_OAUTH_ERROR(HttpStatus.BAD_REQUEST,"구글 OAuth 인증을 실패했습니다.");
 
-
     private final HttpStatus httpStatus;
     private final String message;
 }

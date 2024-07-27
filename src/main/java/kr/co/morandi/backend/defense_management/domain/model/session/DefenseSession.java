@@ -126,5 +126,4 @@ public class DefenseSession extends BaseEntity {
                 .findFirst()
                 .orElse(INITIAL_ACCESS_PROBLEM_NUMBER);
     }
-
 }

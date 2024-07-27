@@ -10,6 +10,8 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+    env:
+      redis.enabled: "false"
     steps:
       - uses: actions/checkout@v3
         with:
