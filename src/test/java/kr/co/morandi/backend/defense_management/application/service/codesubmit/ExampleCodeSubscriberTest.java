@@ -26,8 +26,9 @@ import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
+@DisabledIfEnvironmentVariable(named = "redis.enabled", matches = "false")
 class ExampleCodeSubscriberTest extends IntegrationTestSupport {
-/**
+
     @MockBean
     private DefenseMessagePort defenseMessagePort;
 
@@ -113,5 +114,4 @@ class ExampleCodeSubscriberTest extends IntegrationTestSupport {
         assertEquals(RedisMessageErrorCode.MESSAGE_PARSE_ERROR, morandiException.getErrorCode());
         assertEquals("Redis의 메시지를 파싱하지 못했습니다.", morandiException.getMessage());
     }
-    **/
 }
