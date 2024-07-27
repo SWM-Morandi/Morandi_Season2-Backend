@@ -11,7 +11,7 @@ jobs:
     name: Build and analyze
     runs-on: ubuntu-latest
     env:
-      SKIP_REDIS_TESTS: "true"
+      redis.enabled: "false"
     steps:
       - uses: actions/checkout@v3
         with:

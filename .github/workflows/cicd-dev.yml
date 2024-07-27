@@ -19,7 +19,7 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     env:
-      SKIP_REDIS_TESTS: "true"
+      redis.enabled: "false"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -67,6 +67,8 @@ jobs:
     name: Deploy to EC2
     needs: build-and-push
     runs-on: ubuntu-latest
+    env:
+      redis.enabled: "true"
     steps:
       - name: appleboy SSH and Deploy to EC2
         uses: appleboy/ssh-action@master # ssh 접속하는 오픈소스
