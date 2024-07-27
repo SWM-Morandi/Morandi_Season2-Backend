@@ -9,6 +9,7 @@ import kr.co.morandi.backend.defense_management.application.response.codesubmit.
 import kr.co.morandi.backend.defense_management.infrastructure.exception.RedisMessageErrorCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 @ActiveProfiles("test")
+@DisabledIfEnvironmentVariable(named = "SKIP_REDIS_TESTS", matches = "true")
 class ExampleCodeSubscriberTest extends IntegrationTestSupport {
 
     @MockBean
