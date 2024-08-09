@@ -44,7 +44,7 @@ jobs:
       - name: Build with Gradle
         env:
           ORG_GRADLE_OPTS: "-Duser.timezone=Asia/Seoul"
-        run: ./gradlew clean bootJar -x test
+        run: ./gradlew clean bootJar
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
