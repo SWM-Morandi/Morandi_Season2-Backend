@@ -23,11 +23,11 @@ public class DailyDefenseGenerationService {
     private final DailyDefenseProblemPort dailyDefenseProblemPort;
     private final DailyDefensePort dailyDefensePort;
 
-    private static final Map.Entry<Long, RandomCriteria> PROBLEM_1 = getRandomCriteria(1L, B5, B1, 1000L, 300000L);
-    private static final Map.Entry<Long, RandomCriteria> PROBLEM_2 = getRandomCriteria(2L, S5, S4, 1000L, 300000L);
-    private static final Map.Entry<Long, RandomCriteria> PROBLEM_3 = getRandomCriteria(3L, S3, S1, 1000L, 300000L);
-    private static final Map.Entry<Long, RandomCriteria> PROBLEM_4 = getRandomCriteria(4L, G5, G4, 1000L, 300000L);
-    private static final Map.Entry<Long, RandomCriteria> PROBLEM_5 = getRandomCriteria(5L, G3, G1, 1000L, 300000L);
+    private static final Map.Entry<Long, RandomCriteria> PROBLEM_1 = getRandomCriteria(1L, B5, B1, 1000L, 30000L);
+    private static final Map.Entry<Long, RandomCriteria> PROBLEM_2 = getRandomCriteria(2L, S5, S4, 1000L, 30000L);
+    private static final Map.Entry<Long, RandomCriteria> PROBLEM_3 = getRandomCriteria(3L, S3, S1, 1000L, 30000L);
+    private static final Map.Entry<Long, RandomCriteria> PROBLEM_4 = getRandomCriteria(4L, G5, G4, 1000L, 30000L);
+    private static final Map.Entry<Long, RandomCriteria> PROBLEM_5 = getRandomCriteria(5L, G3, G1, 1000L, 30000L);
     private static final String POSTFIX = "%d월 %d일 오늘의 문제";
 
     @Transactional
