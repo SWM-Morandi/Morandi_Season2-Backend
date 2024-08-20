@@ -9,7 +9,7 @@ import static kr.co.morandi.backend.problem_information.domain.model.problem.Pro
 
 @Entity
 @Table(name = "problem", indexes = {
-        @Index(name = "idx-", columnList = "solvedCount, problemTier, problemStatus")
+        @Index(name = "idx_problem_solvedCount_tier_status", columnList = "solvedCount, problemTier, problemStatus")
 })
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
