@@ -8,6 +8,9 @@ import lombok.*;
 import static kr.co.morandi.backend.problem_information.domain.model.problem.ProblemStatus.INIT;
 
 @Entity
+@Table(name = "problem", indexes = {
+        @Index(name = "idx-", columnList = "solvedCount, problemTier, problemStatus")
+})
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Problem extends BaseEntity {

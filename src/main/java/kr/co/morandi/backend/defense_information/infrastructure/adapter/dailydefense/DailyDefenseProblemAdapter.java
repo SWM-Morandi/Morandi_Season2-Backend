@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,7 +28,8 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
     @Override
     public Map<Long, Problem> getDailyDefenseProblem(Map<Long, RandomCriteria> criteria) {
 
-        Pageable pageable = PageRequest.of(0, 1);
+        Pageable pageable = PageRequest.of(0, 50);
+        Random random = new Random();
 
         return criteria.entrySet().stream()
                 .map(entry -> {
@@ -37,12 +39,12 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
                     final ProblemTier endTier = difficultyRange.getEndDifficulty();
 
                     final List<Problem> dailyDefenseProblems =
-                            problemRepository.getDailyDefenseProblems(ProblemTier.tierRangeOf(startTier, endTier),
-                                                                        randomCriteria.getMinSolvedCount(),
-                                                                        randomCriteria.getMaxSolvedCount(),
-                                                                        pageable);
+                            problemRepository.getDailyDefenseProblems
+                                    (ProblemTier.tierRangeOf(startTier, endTier),
+                                                            randomCriteria.getMinSolvedCount(),
+                                                            randomCriteria.getMaxSolvedCount(), pageable);
 
-                    return Map.entry(entry.getKey(), dailyDefenseProblems.get(0));
+                    return Map.entry(entry.getKey(), dailyDefenseProblems.get(random.nextInt(dailyDefenseProblems.size())));
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
