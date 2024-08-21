@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Component
@@ -29,7 +30,6 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
     public Map<Long, Problem> getDailyDefenseProblem(Map<Long, RandomCriteria> criteria) {
 
         Pageable pageable = PageRequest.of(0, 50);
-        Random random = new Random();
 
         return criteria.entrySet().stream()
                 .map(entry -> {
@@ -44,7 +44,8 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
                                                             randomCriteria.getMinSolvedCount(),
                                                             randomCriteria.getMaxSolvedCount(), pageable);
 
-                    return Map.entry(entry.getKey(), dailyDefenseProblems.get(random.nextInt(dailyDefenseProblems.size())));
+                    int randomNum = ThreadLocalRandom.current().nextInt(0, dailyDefenseProblems.size());
+                    return Map.entry(entry.getKey(), dailyDefenseProblems.get(randomNum));
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
