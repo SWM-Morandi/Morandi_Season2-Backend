@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -44,7 +45,7 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
                                                             randomCriteria.getMinSolvedCount(),
                                                             randomCriteria.getMaxSolvedCount(), pageable);
 
-                    int randomNum = ThreadLocalRandom.current().nextInt(0, dailyDefenseProblems.size());
+                    int randomNum = new SecureRandom().nextInt(dailyDefenseProblems.size());
                     return Map.entry(entry.getKey(), dailyDefenseProblems.get(randomNum));
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
