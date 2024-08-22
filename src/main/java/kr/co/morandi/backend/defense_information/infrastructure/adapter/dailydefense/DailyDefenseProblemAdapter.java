@@ -12,8 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.security.SecureRandom;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 @Component
@@ -27,7 +30,7 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
     @Override
     public Map<Long, Problem> getDailyDefenseProblem(Map<Long, RandomCriteria> criteria) {
 
-        Pageable pageable = PageRequest.of(0, 1);
+        Pageable pageable = PageRequest.of(0, 50);
 
         return criteria.entrySet().stream()
                 .map(entry -> {
@@ -37,12 +40,13 @@ public class DailyDefenseProblemAdapter implements DailyDefenseProblemPort {
                     final ProblemTier endTier = difficultyRange.getEndDifficulty();
 
                     final List<Problem> dailyDefenseProblems =
-                            problemRepository.getDailyDefenseProblems(ProblemTier.tierRangeOf(startTier, endTier),
-                                                                        randomCriteria.getMinSolvedCount(),
-                                                                        randomCriteria.getMaxSolvedCount(),
-                                                                        pageable);
+                            problemRepository.getDailyDefenseProblems
+                                    (ProblemTier.tierRangeOf(startTier, endTier),
+                                                            randomCriteria.getMinSolvedCount(),
+                                                            randomCriteria.getMaxSolvedCount(), pageable);
 
-                    return Map.entry(entry.getKey(), dailyDefenseProblems.get(0));
+                    int randomNum = new SecureRandom().nextInt(dailyDefenseProblems.size());
+                    return Map.entry(entry.getKey(), dailyDefenseProblems.get(randomNum));
                 })
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }

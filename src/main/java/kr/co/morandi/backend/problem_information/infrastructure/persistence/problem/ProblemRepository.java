@@ -14,13 +14,12 @@ public interface ProblemRepository extends JpaRepository<Problem, Long> {
     @Query("""
         SELECT p
         FROM Problem p
+        LEFT JOIN DailyDefenseProblem ddp ON p.problemId = ddp.problem.problemId
         WHERE p.problemStatus = 'ACTIVE'
-        AND p.problemTier IN :problemTiers
-        AND p.solvedCount >= :startSolvedCount
-        AND p.solvedCount <= :endSolvedCount
-        AND p NOT IN (SELECT ddp.problem
-                      FROM DailyDefenseProblem ddp)
-        ORDER BY FUNCTION('RAND')
+            AND p.problemTier IN :problemTiers
+            AND p.solvedCount >= :startSolvedCount
+            AND p.solvedCount <= :endSolvedCount
+            AND ddp.problem IS NULL
     """)
     List<Problem> getDailyDefenseProblems(List<ProblemTier> problemTiers, Long startSolvedCount, Long endSolvedCount, Pageable pageable);
 
