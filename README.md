@@ -12,9 +12,3 @@
 <img src="https://github.com/SWM-Morandi/Backend/assets/51875177/09f4a800-0136-487d-8a65-0be5265667a2">
 
 <br>
-
-<h3 align="left">📄 ERD</h3>
-
-- 현재 ERD 구조는 완성되었고 프로젝트 진행 중에 있습니다.
-
-<img src="https://github.com/SWM-Morandi/Season2-Backend/assets/51875177/15f10ed4-1c2b-4de9-acd3-dd471c956b44">
